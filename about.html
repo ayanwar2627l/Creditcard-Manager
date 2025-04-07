@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CardWise</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .nav-header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #718096;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links .active {
+            color: #667eea;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info span {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #e53e3e;
+            color: #e53e3e;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .about-section {
+            padding: 120px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-header h1 {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .about-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .about-text {
+            padding-right: 40px;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #4a5568;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .about-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-section {
+            background: #f7fafc;
+            padding: 80px 5%;
+            margin-top: 60px;
+        }
+
+        .mission-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .mission-card i {
+            font-size: 2rem;
+            color: #4299e1;
+            margin-bottom: 20px;
+        }
+
+        .mission-card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .mission-card p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-text {
+                padding-right: 0;
+            }
+
+            .about-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-header">
+            <div class="logo">
+                <h1><i class="fas fa-credit-card"></i> CardWise</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html" class="active">About</a>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#founders">Founders</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="user-info">
+                <span id="userName">Account</span>
+                <button onclick="logout()" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="about-section">
+        <div class="about-header">
+            <h1>About CardWise</h1>
+            <p>Your trusted companion in managing credit cards and maximizing rewards. We're on a mission to make credit card management simple, efficient, and rewarding.</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>CardWise was founded in 2024 with a simple goal: to help people make the most of their credit cards. We noticed that many people were missing out on valuable rewards and benefits simply because they couldn't keep track of their multiple cards effectively.</p>
+                <p>Our team of finance experts and tech innovators came together to create a solution that would make credit card management not just easier, but more rewarding. Today, CardWise helps thousands of users optimize their credit card usage and maximize their rewards.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="CardWise Story">
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <div class="mission-container">
+            <h2 class="section-title">Our Mission</h2>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Empower Users</h3>
+                    <p>We believe in giving users the tools and knowledge they need to make informed financial decisions.</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Ensure Security</h3>
+                    <p>Your financial data security is our top priority. We use industry-standard encryption and never store sensitive information.</p>
+                </div>
+                <div class="mission-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Maximize Rewards</h3>
+                    <p>We help you get the most value from your credit cards by optimizing your spending across different categories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Logout function
+        function logout() {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('creditCards');
+            window.location.href = 'login.html';
+        }
+
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const userData = JSON.parse(currentUser);
+            document.getElementById('userName').textContent = userData.name || 'Account';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - CardWise</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #4a5568;
+            position: relative;
+            overflow-x: hidden;
+            background: #1a1a2e;
+        }
+
+        /* Animated background */
+        .bg-animation-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-1000px) translateX(100px) rotate(360deg);
+            }
+        }
+
+        /* Enhanced card styling with animations */
+        .contact-form, .info-card, .contact-cta {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover, .contact-form:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        .contact-header h1 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .contact-header h1:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -8px;
+            left: 0;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.5s;
+            animation: headerLine 1.5s forwards;
+        }
+
+        @keyframes headerLine {
+            to {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+            }
+        }
+
+        .nav-header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #718096;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links .active {
+            color: #667eea;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info span {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #e53e3e;
+            color: #e53e3e;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 80px;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .contact-header h1 {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .contact-header p {
+            font-size: 1.2rem;
+            color: #718096;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card h3 i {
+            color: #667eea;
+        }
+
+        .info-card p {
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f7fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: #667eea;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .contact-cta {
+            text-align: center;
+            margin-top: 80px;
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .contact-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-cta p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                order: 1;
+            }
+
+            .contact-form {
+                order: 2;
+            }
+
+            .contact-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Enhanced cursor interaction with elements */
+        .btn, button, a, input, textarea, select, .info-card, .social-links a {
+            cursor: none;
+        }
+
+        /* Custom cursor styles */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: transparent;
+            border: 2px solid rgba(102, 126, 234, 0.6);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s, background 0.3s;
+        }
+
+        .custom-cursor-follower {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.6);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: 0.1s ease;
+        }
+
+        /* Add a subtle glow to interactive elements on hover */
+        .btn:hover, button:hover, a:hover, .social-links a:hover {
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation-wrapper">
+        <div class="bg-animation"></div>
+        <div class="particles" id="particles"></div>
+    </div>
+
+    <header>
+        <nav class="nav-header">
+            <div class="logo">
+                <h1><i class="fas fa-credit-card"></i> CardWise</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#founders">Founders</a>
+                <a href="contact.html" class="active">Contact</a>
+            </div>
+            <div class="user-info">
+                <span id="userName">Account</span>
+                <button onclick="logout()" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>Have questions or suggestions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-form">
+                <h2>Send Us a Message</h2>
+                <form id="contactForm" onsubmit="return handleContactSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject">
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="feedback">Feedback/Suggestions</option>
+                            <option value="partnership">Partnership Opportunities</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Our Location</h3>
+                    <p>PHAGAWARA</p>
+                    <p>PUNJAB, 144401</p>
+                    <p>India</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-phone-alt"></i> Phone & Email</h3>
+                    <p><strong>Customer Support:</strong> +91 9876543210</p>
+                    <p><strong>Technical Support:</strong> +91 9876543210</p>
+                    <p><strong>Email:</strong> support@cardwise.com</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-clock"></i> Business Hours</h3>
+                    <p><strong>Monday-Friday:</strong> 9:00 AM - 6:00 PM</p>
+                    <p><strong>Saturday:</strong> 10:00 AM - 4:00 PM</p>
+                    <p><strong>Sunday:</strong> Closed</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-share-alt"></i> Follow Us</h3>
+                    <p>Stay connected with us on social media for updates and tips.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-cta">
+            <h2>Join Our Team</h2>
+            <p>Get exclusive tips, updates, and special offers by joining our newsletter. Stay informed about the latest features and enhancements to CardWise.</p>
+            <!-- <a href="#" class="cta-btn">Subscribe Now</a>//this subsribe now button edited by priyanshu -->
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                try {
+                    const userData = JSON.parse(currentUser);
+                    document.getElementById('userName').textContent = userData.name || 'Account';
+                    
+                    // Pre-fill form with user data if available
+                    if (userData.name) document.getElementById('name').value = userData.name;
+                    if (userData.email) document.getElementById('email').value = userData.email;
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    localStorage.removeItem('currentUser');
+                }
+            } else {
+                document.getElementById('userName').textContent = 'Account';
+            }
+
+            // Create particles for background animation
+            const particlesContainer = document.getElementById('particles');
+            const numberOfParticles = 40;
+            
+            for(let i = 0; i < numberOfParticles; i++) {
+                createParticle(particlesContainer);
+            }
+            
+            // Add delay to info cards for staggered animation
+            const infoCards = document.querySelectorAll('.info-card');
+            infoCards.forEach((card, index) => {
+                card.style.animationDelay = `${0.2 * (index + 1)}s`;
+            });
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('creditCards');
+                alert('Logout successful! Redirecting to login page...');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Handle contact form submission
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Add form submission animation
+            const form = document.querySelector('.contact-form');
+            form.style.transition = 'all 0.5s ease';
+            form.style.transform = 'scale(0.95)';
+            form.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                // Redirect to success page with form data
+                const params = new URLSearchParams();
+                params.append('name', name);
+                params.append('email', email);
+                params.append('subject', subject);
+                params.append('message', message);
+                
+                window.location.href = `contact-success.html?${params.toString()}`;
+            }, 800);
+            
+            return false;
+        }
+
+        // Create particles
+        function createParticle(container) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random properties
+            const size = Math.random() * 20 + 5; // 5-25px
+            const posX = Math.random() * 100; // 0-100%
+            const posY = Math.random() * 100; // 0-100%
+            const duration = Math.random() * 40 + 20; // 20-60s
+            const delay = Math.random() * 10; // 0-10s
+            
+            // Set style properties
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}%`;
+            particle.style.bottom = `${-10}%`;
+            particle.style.backgroundColor = getRandomColor();
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
+            
+            container.appendChild(particle);
+        }
+        
+        function getRandomColor() {
+            const colors = [
+                'rgba(102, 126, 234, 0.5)',  // Blue
+                'rgba(118, 75, 162, 0.5)',   // Purple
+                'rgba(237, 137, 230, 0.5)',  // Pink
+                'rgba(100, 181, 246, 0.5)',  // Light Blue
+                'rgba(168, 216, 234, 0.3)'   // Very Light Blue
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Create custom cursor
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create custom cursor elements
+            const cursor = document.createElement('div');
+            cursor.classList.add('custom-cursor');
+            
+            const follower = document.createElement('div');
+            follower.classList.add('custom-cursor-follower');
+            
+            document.body.appendChild(cursor);
+            document.body.appendChild(follower);
+            
+            // Hide default cursor
+            document.body.style.cursor = 'none';
+            
+            // Move custom cursor with mouse
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                // Follower follows with slight delay
+                setTimeout(() => {
+                    follower.style.left = e.clientX + 'px';
+                    follower.style.top = e.clientY + 'px';
+                }, 50);
+            });
+            
+            // Scale cursor on hover over interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, select, .info-card, .social-links a');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', function() {
+                    cursor.style.width = '40px';
+                    cursor.style.height = '40px';
+                    cursor.style.background = 'rgba(102, 126, 234, 0.1)';
+                    cursor.style.borderColor = 'rgba(102, 126, 234, 0.8)';
+                    follower.style.opacity = '0.5';
+                });
+                
+                el.addEventListener('mouseleave', function() {
+                    cursor.style.width = '20px';
+                    cursor.style.height = '20px';
+                    cursor.style.background = 'transparent';
+                    cursor.style.borderColor = 'rgba(102, 126, 234, 0.6)';
+                    follower.style.opacity = '1';
+                });
+            });
+        });
+
+        // Add flowing rainbow particles on mouse movement
+        document.addEventListener('mousemove', function(e) {
+            // Only create particles occasionally
+            if (Math.random() > 0.85) {
+                createFlowingParticle(e.clientX, e.clientY);
+            }
+        });
+        
+        function createFlowingParticle(x, y) {
+            const particle = document.createElement('div');
+            
+            // Generate a flowing rainbow color
+            const hue = Math.floor(Math.random() * 360);
+            
+            // Random size and properties
+            const size = Math.random() * 12 + 5;
+            const angle = Math.random() * 360;
+            const distance = Math.random() * 100 + 50;
+            const duration = Math.random() * 1.5 + 1;
+            
+            // Set initial styles
+            particle.style.position = 'fixed';
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.borderRadius = '50%';
+            particle.style.background = `hsla(${hue}, 100%, 70%, 0.7)`;
+            particle.style.boxShadow = `0 0 10px hsla(${hue}, 100%, 70%, 0.5)`;
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.zIndex = '9990';
+            particle.style.pointerEvents = 'none';
+            particle.style.transform = 'translate(-50%, -50%)';
+            particle.style.transition = `all ${duration}s cubic-bezier(0.165, 0.84, 0.44, 1)`;
+            
+            document.body.appendChild(particle);
+            
+            // Animate the particle
+            setTimeout(() => {
+                // Move in a random direction
+                const moveX = x + Math.cos(angle * Math.PI / 180) * distance;
+                const moveY = y + Math.sin(angle * Math.PI / 180) * distance;
+                
+                particle.style.left = `${moveX}px`;
+                particle.style.top = `${moveY}px`;
+                particle.style.opacity = '0';
+                particle.style.transform = 'translate(-50%, -50%) scale(0.2)';
+                
+                // Change color midway through animation
+                setTimeout(() => {
+                    const newHue = (hue + 40) % 360;
+                    particle.style.background = `hsla(${newHue}, 100%, 70%, 0.5)`;
+                    particle.style.boxShadow = `0 0 15px hsla(${newHue}, 100%, 70%, 0.3)`;
+                }, duration * 500);
+                
+                // Remove the particle after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }, 10);
+        }
+    </script>
+</body>
+</html> 

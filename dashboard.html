@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CardWise</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Add specific dashboard styles if needed, or link to existing styles.css */
+        /* Ensure header styles from index.html are applied or copied here */
+        .nav-header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #718096;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links .active {
+            color: #667eea;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info span {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #e53e3e;
+            color: #e53e3e;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background-color: #fff;
+        }
+
+        .logout-btn:hover {
+            background-color: #e53e3e;
+            color: white;
+        }
+        /* Make sure .dashboard styles from styles.css are available */
+        .dashboard {
+            display: flex;
+            gap: 20px;
+            padding-top: 90px; /* Adjust based on header height */
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Styles for card holder name */
+        .card-holder-name {
+            font-size: 0.9em;
+            color: #ffffffcc; /* Lighter text color */
+            margin-top: 5px;
+            position: absolute; 
+            bottom: 15px; 
+            left: 20px; 
+            font-weight: 500;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Add styles for the card visual */
+        .card-visual {
+            position: relative;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            color: white;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-item {
+            position: relative;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-height: 100px;
+        }
+        
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-header">
+            <div class="logo">
+                <h1><i class="fas fa-credit-card"></i> CardWise</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <!-- Add other relevant links for logged-in users if needed -->
+            </div>
+            <div class="user-info">
+                <span id="userName">Account</span>
+                <button onclick="logout()" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="dashboard">
+        <div class="sidebar">
+            <button id="addCardBtn" class="btn-primary">
+                <i class="fas fa-plus"></i> Add New Card
+            </button>
+            <div class="card-list">
+                <!-- Cards will be listed here dynamically -->
+            </div>
+            <div class="stats">
+                <h3>Quick Stats</h3>
+                <div class="stat-item">
+                    <span>Total Cards:</span>
+                    <span id="totalCards">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Total Rewards:</span>
+                    <span id="totalRewards">₹0.00</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="card-detail-container">
+                <div id="noCardSelected" class="no-card-message">
+                    <i class="fas fa-hand-point-left"></i>
+                    <p>Select a card or add a new one to get started</p>
+                </div>
+                <div id="cardDetail" class="card-detail hidden">
+                    <!-- Card details will be shown here -->
+                </div>
+                <div id="transactionSection" class="transaction-section hidden">
+                    <h3>Recent Transactions</h3>
+                    <div class="transaction-list-container">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Reward</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionList">
+                                <!-- Transactions will be listed here -->
+                            </tbody>
+                        </table>
+                        <div id="noTransactions" class="no-transactions">
+                            <p>No transactions yet for this card</p>
+                            <button id="addTransactionBtn" class="btn-secondary">
+                                <i class="fas fa-plus"></i> Add Transaction
+                            </button>
+                        </div>
+                    </div>
+                    <button id="hideTransactionsBtn" class="btn-text">
+                        <i class="fas fa-chevron-up"></i> Hide Transactions
+                    </button>
+                </div>
+            </div>
+            
+            <div class="rewards-calculator">
+                <h2>Rewards Calculator</h2>
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="category">Spending Category:</label>
+                        <select id="category">
+                            <option value="dining">Dining</option>
+                            <option value="groceries">Groceries</option>
+                            <option value="travel">Travel</option>
+                            <option value="gas">Gas</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Purchase Amount (₹):</label>
+                        <input type="number" id="amount" min="0" step="0.01">
+                    </div>
+                    <button id="calculateBtn" class="btn-primary">Calculate Best Card</button>
+                </div>
+                <div id="calculationResult" class="calculation-result hidden">
+                    <!-- Calculation results will be shown here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Card Modal -->
+    <div id="addCardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Credit Card</h2>
+            <form id="addCardForm">
+                <div class="form-group">
+                    <label for="cardName">Card Name:</label>
+                    <input type="text" id="cardName" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardIssuer">Card Issuer:</label>
+                    <input type="text" id="cardIssuer" required>
+                </div>
+                <div class="form-group">
+                    <label for="cardType">Card Type:</label>
+                    <select id="cardType">
+                        <option value="visa">Visa</option>
+                        <option value="mastercard">Mastercard</option>
+                        <option value="amex">American Express</option>
+                        <option value="discover">Discover</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lastFour">Last 4 Digits:</label>
+                    <input type="text" id="lastFour" maxlength="4" pattern="[0-9]{4}" required>
+                </div>
+                <div class="form-group">
+                    <label for="expiration">Expiration Date:</label>
+                    <input type="month" id="expiration" required>
+                </div>
+                <div class="form-group">
+                    <label for="limit">Credit Limit (₹):</label>
+                    <input type="number" id="limit" min="0" step="100">
+                </div>
+                <h3>Reward Rates</h3>
+                <div class="reward-rates">
+                    <div class="form-group">
+                        <label for="diningRate">Dining (%):</label>
+                        <input type="number" id="diningRate" min="0" max="10" step="0.5" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="groceriesRate">Groceries (%):</label>
+                        <input type="number" id="groceriesRate" min="0" max="10" step="0.5" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="travelRate">Travel (%):</label>
+                        <input type="number" id="travelRate" min="0" max="10" step="0.5" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="gasRate">Gas (%):</label>
+                        <input type="number" id="gasRate" min="0" max="10" step="0.5" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="otherRate">Everything Else (%):</label>
+                        <input type="number" id="otherRate" min="0" max="10" step="0.5" value="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cardColor">Card Color:</label>
+                    <input type="color" id="cardColor" value="#1976d2">
+                </div>
+                <button type="submit" class="btn-primary">Add Card</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div id="addTransactionModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Transaction</h2>
+            <form id="addTransactionForm">
+                <div class="form-group">
+                    <label for="transactionDate">Date:</label>
+                    <input type="date" id="transactionDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionDescription">Description:</label>
+                    <input type="text" id="transactionDescription" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionCategory">Category:</label>
+                    <select id="transactionCategory">
+                        <option value="dining">Dining</option>
+                        <option value="groceries">Groceries</option>
+                        <option value="travel">Travel</option>
+                        <option value="gas">Gas</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transactionAmount">Amount (₹):</label>
+                    <input type="number" id="transactionAmount" min="0" step="0.01" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Transaction</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Authentication check specific to the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                // If not logged in, redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const userData = JSON.parse(currentUser);
+                document.getElementById('userName').textContent = userData.name || 'Account';
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html'; // Redirect if data is corrupt
+            }
+            
+            // Initialize dashboard specific functions from script.js
+            // This assumes script.js is structured to handle initialization on DOMContentLoaded
+        });
+
+        // Logout function (can be kept here or moved entirely to script.js)
+        function logout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('creditCards');
+                alert('Logout successful! Redirecting to login page...');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+    <!-- Link to the main JavaScript file -->
+    <script src="js/script.js"></script>
+
+    <!-- Chat Bot Widget -->
+    <div class="chat-widget">
+        <div class="chat-button" id="chatButton">
+            <i class="fas fa-comments"></i>
+            <span class="chat-badge">3</span> <!-- Example badge -->
+        </div>
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <h3>Credit Card Assistant</h3>
+                <button class="close-chat" id="closeChat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-content">
+                        Hello! I'm your credit card assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendMessage">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

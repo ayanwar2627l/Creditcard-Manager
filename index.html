@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Tracker & Reward Calculator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        .nav-header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #718096;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links .active {
+            color: #667eea;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info span {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #e53e3e;
+            color: #e53e3e;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .logout-btn{
+            background-color: #fff;
+        }
+        .logout-btn:hover {
+            background-color: #e53e3e;
+            color: white;
+        }
+
+        /* Adjust main content to account for fixed header */
+        .container {
+            margin-top: 70px;
+        }
+
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 5%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin-top: 60px;
+            border-radius: 10px;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 30px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .primary-btn {
+            background: #4299e1;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .features-section, .founders-section {
+            padding: 80px 5%;
+            background: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: #4299e1;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #4299e1;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .founders-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .founder-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            width: 300px;
+        }
+
+        .founder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .founder-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 5px solid #e2e8f0;
+        }
+
+        .founder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .founder-card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .founder-title {
+            color: #4299e1;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .founder-bio {
+            color: #4a5568;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .founder-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .founder-social a {
+            color: #4a5568;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .founder-social a:hover {
+            color: #4299e1;
+            transform: translateY(-3px);
+        }
+
+        .app-section {
+            padding: 80px 5%;
+            background: #f7fafc;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                padding: 60px 5%;
+            }
+
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 40px;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .founders-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-header">
+            <div class="logo">
+                <h1><i class="fas fa-credit-card"></i> CardWise</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="about.html">About</a>
+                <a href="#features">Features</a>
+                <a href="#founders">Founders</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="user-info">
+                <span id="userName">Account</span>
+                <button onclick="logout()" id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to CardWise</h1>
+            <p>The smart way to manage your credit cards and maximize rewards</p>
+            <button class="primary-btn" onclick="window.location.href='dashboard.html'">LET US MANAGE YOUR CREDIT-CARDS</button>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Credit Card Management">
+        </div>
+    </div>
+
+    <section id="features" class="features-section">
+        <h2 class="section-title">Why Choose CardWise?</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <i class="fas fa-wallet feature-icon"></i>
+                <h3>Smart Card Management</h3>
+                <p>Keep all your credit cards in one place with detailed information and tracking.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h3>Reward Optimization</h3>
+                <p>Automatically calculate the best card for each purchase to maximize your rewards.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3>Secure & Private</h3>
+                <p>Your data stays on your device with no server-side storage for maximum privacy.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-comment-dots feature-icon"></i>
+                <h3>Intelligent Assistant</h3>
+                <p>Our chatbot helps you manage your cards and answers your questions instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="founders" class="founders-section">
+        <h2 class="section-title">Meet Our Founders</h2>
+        <div class="founders-container">
+            <div class="founder-card">
+                <div class="founder-image">
+                    <img src="founder-images/Priyanshu Jaiswal.jpeg" alt="Founder Image">
+                </div>
+                <h3>Priyanshu Jaiswal</h3>
+                <p class="founder-title"></p>
+                <p class="founder-bio">Structure the web page using HTML.
+
+                    Style the page using Tailwind CSS.
+                    
+                    Make the layout responsive and visually appealing.
+                    
+                    Handle basic interactivity with JavaScript (e.g., modals, dropdowns).</p>
+                <div class="founder-social">
+                    <a href="https://www.linkedin.com/in/priyanshu-jaiswal-6b6543289/"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="founder-card">
+                <div class="founder-image">
+                    <img src="founder-images/Ayushman.jpeg" alt="Founder Image">
+                </div>
+                <h3>Ayushman Bhattacharya</h3>
+                <p class="founder-title"></p>
+                <p class="founder-bio">Integrate frontend and backend parts smoothly.
+
+                    Test the entire web page for bugs and responsiveness.
+                    
+                    Optimize performance (loading time, asset size).
+                    
+                    Deploy the site</p>
+                <div class="founder-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="founder-card">
+                <div class="founder-image">
+                    <img src="founder-images/hrithik.png" alt="Founder Image">
+                </div>
+                <h3>Hrithik Parihar</h3>
+                <p class="founder-title"></p>
+                <p class="founder-bio">Layout design, topic research on "How Credit Cards Work," and development of the pages for the betterment .</p>
+                <div class="founder-social">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                 try {
+                    const userData = JSON.parse(currentUser);
+                    document.getElementById('userName').textContent = userData.name || 'Account';
+                } catch (error) {
+                    console.error('Error parsing user data:', error);
+                    // Don't necessarily redirect, just clear potential bad data
+                    localStorage.removeItem('currentUser'); 
+                }
+            } else {
+                 // Handle case where user isn't logged in but viewing the landing page
+                 // Maybe hide logout button or show Sign In/Sign Up? For now, just display default 'Account'
+                 document.getElementById('userName').textContent = 'Account';
+                 // Consider hiding logout button if desired
+                 // document.getElementById('logoutBtn').style.display = 'none'; 
+            }
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to log out?')) {
+                localStorage.removeItem('currentUser');
+                // Remove cards data on logout as well
+                localStorage.removeItem('creditCards'); 
+                alert('Logout successful! Redirecting to login page...');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Scroll to section function (might still be needed for #features, #founders)
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                // Adjust offset if header height changes or remove if not needed
+                window.scrollTo({
+                    top: section.offsetTop - 80, 
+                    behavior: 'smooth'
+                });
+            }
+        }
+    </script>
+
+    <!-- Chat Bot Widget - Keep or remove based on whether you want it on the landing page -->
+    <div class="chat-widget">
+        <div class="chat-button" id="chatButton">
+            <i class="fas fa-comments"></i>
+            <span class="chat-badge">3</span>
+        </div>
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <h3>Credit Card Assistant</h3>
+                <button class="close-chat" id="closeChat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-content">
+                        Hello! I'm your credit card assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendMessage">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
