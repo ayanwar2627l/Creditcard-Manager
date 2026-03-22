@@ -1,0 +1,18 @@
+.admin-badge {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #fff;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(255, 165, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+}
+.admin-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 165, 0, 0.6);
+}

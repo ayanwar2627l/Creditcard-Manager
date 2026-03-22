@@ -39,6 +39,14 @@ A modern web application for managing multiple credit cards, tracking transactio
   - Best card for purchases
   - General card management help
 
+#### How the Smart Assistant Works
+The Smart Assistant is a seamless, client-side, rule-based chatbot integrated directly into `js/script.js`. It does not rely on external AI APIs or server-side natural language processing, ensuring 100% data privacy. Instead, it uses **Regex keyword matching** to interpret your queries and dynamically calculates answers using your offline `localStorage` dataset.
+
+**Key Parsing Mechanisms**:
+- **Intent Recognition**: Scanning inputs for functional phrases like `"reward rate"`, `"last transaction"`, or `"credit limit"`.
+- **Parameter Extraction**: Utilizing regular expressions to isolate specific spending categories (e.g., `dining`, `travel`) or numerical amounts (e.g., `5000`) mentioned in your prompt.
+- **Contextual Compilation**: Iterating over your saved `creditCards` array in real-time to compute remaining balances, fetch your most recent transaction histories, or objectively calculate the highest-yielding card for a specific purchase amount.
+
 ### User Experience
 - Beautiful, responsive design
 - Real-time updates
@@ -121,11 +129,9 @@ cd credit-card-tracker
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
 - Font Awesome for the beautiful icons
 - All contributors who help improve this project 
+-Used assistant for the styling 

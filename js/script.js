@@ -1,19 +1,8 @@
 // User Authentication and Menu Handling
 function checkAuth() {
-    const currentUser = localStorage.getItem('currentUser');
-    if (!currentUser) {
-        window.location.href = 'login.html';
-        return;
-    }
-    
-    try {
-        const userData = JSON.parse(currentUser);
-        updateUserMenu(userData);
-    } catch (error) {
-        console.error('Error parsing user data:', error);
-        localStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
-    }
+    // Authentication removed, defaulting to Admin user
+    const defaultUser = { name: 'Admin', email: 'admin@cardwise.com' };
+    updateUserMenu(defaultUser);
 }
 
 function updateUserMenu(user) {
