@@ -134,4 +134,4 @@ cd credit-card-tracker
 
 - Font Awesome for the beautiful icons
 - All contributors who help improve this project 
--Used assistant for the styling 
+-Used assistant for the styling improvements

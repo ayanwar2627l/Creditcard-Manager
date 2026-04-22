@@ -1,22 +1,7 @@
-// User Authentication and Menu Handling
-function checkAuth() {
-    // Authentication removed, defaulting to Admin user
-    const defaultUser = { name: 'Admin', email: 'admin@cardwise.com' };
-    updateUserMenu(defaultUser);
-}
+// Authentication is handled by js/auth.js + inline nav scripts on each page.
+// script.js focuses purely on dashboard card/transaction/calculator logic.
 
-function updateUserMenu(user) {
-    const userNameElement = document.getElementById('userName');
-    
-    if (userNameElement) {
-        userNameElement.textContent = user.name || 'Account';
-    }
-}
-
-// Initialize user authentication
 document.addEventListener('DOMContentLoaded', function() {
-    checkAuth();
-    
     // DOM Elements
     const addCardBtn = document.getElementById('addCardBtn');
     const addCardModal = document.getElementById('addCardModal');

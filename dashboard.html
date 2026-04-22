@@ -6,9 +6,9 @@
     <title>Dashboard - CardWise</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/shared.css">
+    <script src="js/auth.js"></script>
 </head>
 <body>
     <header>
@@ -22,11 +22,9 @@
                 <a href="contact.html">Contact</a>
                 <!-- Add other relevant links for logged-in users if needed -->
             </div>
-            <div class="user-info">
-                <div class="admin-badge">
-                    <i class="fas fa-crown"></i>
-                    <span id="userName">Admin</span>
-                </div>
+            <!-- Dynamic user icon: shows name+logout when logged in, login link otherwise -->
+            <div class="user-info" id="navUserArea">
+                <!-- filled by initNavAuth() -->
             </div>
         </nav>
     </header>
@@ -220,8 +218,62 @@
     </div>
 
     <script>
-        // No authentication required
-        // Initialize dashboard specific functions from script.js
+        // ── Nav: render login / user state ──────────────────────────────
+        function initNavAuth() {
+            const area = document.getElementById('navUserArea');
+            const session = AUTH.getSession();
+            if (session) {
+                area.innerHTML = `
+                    <div class="nav-user-badge" id="navUserMenu">
+                        <button class="nav-user-btn" onclick="toggleUserMenu()" aria-expanded="false" aria-haspopup="true">
+                            <i class="fas fa-user-circle"></i>
+                            <span>${session.name}</span>
+                            <i class="fas fa-chevron-down nav-chevron"></i>
+                        </button>
+                        <div class="nav-dropdown" id="navDropdown" style="display:none">
+                            <div class="nav-drop-name">${session.email}</div>
+                            <button class="nav-drop-item" onclick="doLogout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>`;
+            } else {
+                area.innerHTML = `
+                    <a href="login.html" class="nav-login-btn" id="navLoginBtn">
+                        <i class="fas fa-user"></i> Login
+                    </a>`;
+            }
+        }
+
+        function toggleUserMenu() {
+            const drop = document.getElementById('navDropdown');
+            const btn  = document.querySelector('.nav-user-btn');
+            const open = drop.style.display === 'block';
+            drop.style.display = open ? 'none' : 'block';
+            btn.setAttribute('aria-expanded', String(!open));
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', e => {
+            const menu = document.getElementById('navUserMenu');
+            if (menu && !menu.contains(e.target)) {
+                const drop = document.getElementById('navDropdown');
+                if (drop) {
+                    drop.style.display = 'none';
+                    document.querySelector('.nav-user-btn')?.setAttribute('aria-expanded','false');
+                }
+            }
+        });
+
+        function doLogout() {
+            AUTH.logout();
+            window.location.reload();
+        }
+
+        // Run on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavAuth();
+        });
     </script>
     <!-- Link to the main JavaScript file -->
     <script src="js/script.js"></script>

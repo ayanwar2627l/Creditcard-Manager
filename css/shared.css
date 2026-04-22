@@ -1,3 +1,98 @@
+/* ── Shared auth nav styles (used on dashboard, index, etc.) ── */
+
+/* Login link in navbar */
+.nav-login-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: linear-gradient(135deg, #6200ea, #9d46ff);
+    color: #fff !important;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(98,0,234,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(98,0,234,0.5);
+}
+
+/* User badge with dropdown */
+.nav-user-badge { position: relative; }
+
+.nav-user-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(4px);
+}
+.nav-user-btn i { font-size: 1rem; }
+.nav-user-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+.nav-chevron { font-size: 0.7rem !important; opacity: 0.7; }
+
+.nav-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 200px;
+    background: #1a1a2e;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    z-index: 1000;
+    animation: dropIn 0.2s ease;
+}
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.nav-drop-name {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    padding: 4px 8px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 8px;
+    word-break: break-all;
+}
+.nav-drop-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 9px;
+    transition: background 0.2s;
+    text-align: left;
+}
+.nav-drop-item:hover { background: rgba(255,107,107,0.12); }
+
+/* Slide-down animation for banner */
+@keyframes slideDown {
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Legacy admin badge kept for backwards compat */
 .admin-badge {
     background: linear-gradient(135deg, #FFD700, #FFA500);
     color: #fff;
@@ -15,4 +110,4 @@
 .admin-badge:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 14px rgba(255, 165, 0, 0.6);
-}
+}

@@ -6,9 +6,9 @@
     <title>Credit Card Tracker & Reward Calculator</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/shared.css">
+    <script src="js/auth.js"></script>
 </head>
 <body>
     <header>
@@ -23,11 +23,8 @@
                 <a href="#founders">Founders</a>
                 <a href="contact.html">Contact</a>
             </div>
-            <div class="user-info">
-                <div class="admin-badge">
-                    <i class="fas fa-crown"></i>
-                    <span id="userName">Admin</span>
-                </div>
+            <div class="user-info" id="navUserArea">
+                <!-- filled dynamically -->
             </div>
         </nav>
     </header>
@@ -36,7 +33,7 @@
         <div class="hero-content">
             <h1>Welcome to CardWise</h1>
             <p>The smart way to manage your credit cards and maximize rewards</p>
-            <button class="primary-btn" onclick="window.location.href='dashboard.html'">LET US MANAGE YOUR CREDIT-CARDS</button>
+            <button class="primary-btn" id="manageCardsBtn" onclick="goToDashboard()">LET US MANAGE YOUR CREDIT-CARDS</button>
         </div>
         <div class="hero-image">
             <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Credit Card Management">
@@ -89,19 +86,64 @@
     </section>
 
     <script>
-        // No authentication required
-        
-        // Scroll to section function (might still be needed for #features, #founders)
+        // ── Hero CTA: require login before entering dashboard ───────────
+        function goToDashboard() {
+            if (AUTH.isLoggedIn()) {
+                window.location.href = 'dashboard.html';
+            } else {
+                window.location.href = 'login.html?returnTo=dashboard.html';
+            }
+        }
+
+        function initNavAuth() {
+            const area = document.getElementById('navUserArea');
+            const session = AUTH.getSession();
+            if (session) {
+                area.innerHTML = `
+                    <div class="nav-user-badge" id="navUserMenu">
+                        <button class="nav-user-btn" onclick="toggleUserMenu()" aria-expanded="false" aria-haspopup="true">
+                            <i class="fas fa-user-circle"></i>
+                            <span>${session.name}</span>
+                            <i class="fas fa-chevron-down nav-chevron"></i>
+                        </button>
+                        <div class="nav-dropdown" id="navDropdown" style="display:none">
+                            <div class="nav-drop-name">${session.email}</div>
+                            <button class="nav-drop-item" onclick="doLogout()">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>`;
+            } else {
+                area.innerHTML = `<a href="login.html" class="nav-login-btn" id="navLoginBtn"><i class="fas fa-user"></i> Login</a>`;
+            }
+        }
+
+        function toggleUserMenu() {
+            const drop = document.getElementById('navDropdown');
+            const btn  = document.querySelector('.nav-user-btn');
+            const open = drop.style.display === 'block';
+            drop.style.display = open ? 'none' : 'block';
+            btn.setAttribute('aria-expanded', String(!open));
+        }
+
+        document.addEventListener('click', e => {
+            const menu = document.getElementById('navUserMenu');
+            if (menu && !menu.contains(e.target)) {
+                const drop = document.getElementById('navDropdown');
+                if (drop) { drop.style.display = 'none'; }
+            }
+        });
+
+        function doLogout() { AUTH.logout(); window.location.reload(); }
+
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
-                // Adjust offset if header height changes or remove if not needed
-                window.scrollTo({
-                    top: section.offsetTop - 80, 
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: section.offsetTop - 80, behavior: 'smooth' });
             }
         }
+
+        document.addEventListener('DOMContentLoaded', initNavAuth);
     </script>
 
     <!-- Chat Bot Widget - Keep or remove based on whether you want it on the landing page -->

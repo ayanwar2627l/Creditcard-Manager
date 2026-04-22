@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up — CardWise</title>
+    <meta name="description" content="Sign in or create a CardWise account to track your credit cards and maximize rewards.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="js/auth.js"></script>
+</head>
+<body>
+
+    <!-- Animated background blobs -->
+    <div class="auth-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="auth-wrapper">
+        <!-- Logo -->
+        <a href="index.html" class="auth-logo">
+            <i class="fas fa-credit-card"></i> CardWise
+        </a>
+
+        <div class="auth-card" id="authCard">
+
+            <!-- ── Tab switcher ── -->
+            <div class="auth-tabs" role="tablist">
+                <button class="auth-tab active" id="tabLogin" role="tab" aria-selected="true" onclick="switchTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="auth-tab" id="tabSignup" role="tab" aria-selected="false" onclick="switchTab('signup')">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </div>
+
+            <!-- ── Login form ── -->
+            <form id="loginForm" class="auth-form" autocomplete="on" novalidate>
+                <h2 class="auth-title">Welcome back</h2>
+                <p class="auth-subtitle">Sign in to manage your cards &amp; rewards</p>
+
+                <div class="field-group">
+                    <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="loginEmail" name="email" placeholder="you@example.com" required autocomplete="email">
+                </div>
+
+                <div class="field-group">
+                    <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="loginPassword" name="password" placeholder="••••••••" required autocomplete="current-password">
+                        <button type="button" class="toggle-pw" onclick="togglePw('loginPassword', this)" aria-label="Show password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loginError" class="auth-error hidden"></div>
+
+                <button type="submit" class="auth-submit-btn" id="loginBtn">
+                    <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Sign In</span>
+                    <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
+                </button>
+
+                <p class="auth-switch">
+                    Don't have an account?
+                    <a href="#" onclick="switchTab('signup'); return false;">Create one free</a>
+                </p>
+            </form>
+
+            <!-- ── Sign-up form ── -->
+            <form id="signupForm" class="auth-form hidden" autocomplete="on" novalidate>
+                <h2 class="auth-title">Get started free</h2>
+                <p class="auth-subtitle">Create your CardWise account in seconds</p>
+
+                <div class="field-group">
+                    <label for="signupName"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signupName" name="name" placeholder="Your name" required autocomplete="name">
+                </div>
+
+                <div class="field-group">
+                    <label for="signupEmail"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="signupEmail" name="email" placeholder="you@example.com" required autocomplete="email">
+                </div>
+
+                <div class="field-group">
+                    <label for="signupPassword"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-wrap">
+                        <input type="password" id="signupPassword" name="password" placeholder="Min 6 characters" required autocomplete="new-password" minlength="6">
+                        <button type="button" class="toggle-pw" onclick="togglePw('signupPassword', this)" aria-label="Show password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="signupError" class="auth-error hidden"></div>
+
+                <button type="submit" class="auth-submit-btn" id="signupBtn">
+                    <span class="btn-text"><i class="fas fa-user-plus"></i> Create Account</span>
+                    <span class="btn-loader hidden"><i class="fas fa-spinner fa-spin"></i></span>
+                </button>
+
+                <p class="auth-switch">
+                    Already have an account?
+                    <a href="#" onclick="switchTab('login'); return false;">Sign in</a>
+                </p>
+            </form>
+
+        </div><!-- /auth-card -->
+    </div><!-- /auth-wrapper -->
+
+
+    <script>
+        // ── Global helpers (called by onclick attributes) ───────────────────
+
+        function switchTab(tab) {
+            const loginForm  = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const tabLogin   = document.getElementById('tabLogin');
+            const tabSignup  = document.getElementById('tabSignup');
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active');
+                tabLogin.setAttribute('aria-selected', 'true');
+                tabSignup.setAttribute('aria-selected', 'false');
+            } else {
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+                tabSignup.setAttribute('aria-selected', 'true');
+                tabLogin.setAttribute('aria-selected', 'false');
+            }
+            document.getElementById('loginError').classList.add('hidden');
+            document.getElementById('signupError').classList.add('hidden');
+        }
+
+        function togglePw(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon  = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // ── Init on DOM ready ───────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Redirect if already logged in
+            if (AUTH.isLoggedIn()) {
+                const params = new URLSearchParams(window.location.search);
+                window.location.href = params.get('returnTo') || 'dashboard.html';
+                return;
+            }
+
+            // Open signup tab if URL has ?tab=signup
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('tab') === 'signup') switchTab('signup');
+
+            // ── Login form handler ────────────────────────────────────────
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const errEl  = document.getElementById('loginError');
+                const btnTxt = document.querySelector('#loginBtn .btn-text');
+                const btnLdr = document.querySelector('#loginBtn .btn-loader');
+                const email  = document.getElementById('loginEmail').value.trim();
+                const pass   = document.getElementById('loginPassword').value;
+
+                errEl.classList.add('hidden');
+                btnTxt.classList.add('hidden');
+                btnLdr.classList.remove('hidden');
+                document.getElementById('loginBtn').disabled = true;
+
+                // Simulated async — swap setTimeout with fetch() when adding a backend
+                setTimeout(function() {
+                    var result = AUTH.login(email, pass);
+                    btnTxt.classList.remove('hidden');
+                    btnLdr.classList.add('hidden');
+                    document.getElementById('loginBtn').disabled = false;
+                    if (result.ok) {
+                        var rp = new URLSearchParams(window.location.search);
+                        window.location.href = rp.get('returnTo') || 'dashboard.html';
+                    } else {
+                        errEl.textContent = result.error;
+                        errEl.classList.remove('hidden');
+                    }
+                }, 500);
+            });
+
+            // ── Sign-up form handler ──────────────────────────────────────
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const errEl  = document.getElementById('signupError');
+                const btnTxt = document.querySelector('#signupBtn .btn-text');
+                const btnLdr = document.querySelector('#signupBtn .btn-loader');
+                const name   = document.getElementById('signupName').value.trim();
+                const email  = document.getElementById('signupEmail').value.trim();
+                const pass   = document.getElementById('signupPassword').value;
+
+                errEl.classList.add('hidden');
+                if (!name) {
+                    errEl.textContent = 'Please enter your name.';
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+                if (pass.length < 6) {
+                    errEl.textContent = 'Password must be at least 6 characters.';
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+
+                btnTxt.classList.add('hidden');
+                btnLdr.classList.remove('hidden');
+                document.getElementById('signupBtn').disabled = true;
+
+                setTimeout(function() {
+                    var result = AUTH.register(name, email, pass);
+                    btnTxt.classList.remove('hidden');
+                    btnLdr.classList.add('hidden');
+                    document.getElementById('signupBtn').disabled = false;
+                    if (result.ok) {
+                        var rp = new URLSearchParams(window.location.search);
+                        window.location.href = rp.get('returnTo') || 'dashboard.html';
+                    } else {
+                        errEl.textContent = result.error;
+                        errEl.classList.remove('hidden');
+                    }
+                }, 500);
+            });
+
+        }); // end DOMContentLoaded
+    </script>
+</body>
+</html>
